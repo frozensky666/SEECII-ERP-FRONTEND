@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { ROLE, PATH } from "../common/const";
-import { auth, login } from "../network/auth";
 
 const Error = () => import("../components/content/Error");
+const Login = () => import("../views/auth/Login");
 const Home = () => import("../views/Home");
 const CommodityManagement = () => import("../views/commodity/CommodityManagement");
 const CommodityClassification = () => import("../views/commodity/CommodityClassification");
@@ -25,6 +25,10 @@ const routes = [
   {
     path: '/error',
     component: Error
+  },
+  {
+    path: '/login',
+    component: Login
   },
   // 商品管理
   {
@@ -94,43 +98,23 @@ const router = new VueRouter({
 
 
 router.beforeEach(async (to,from,next) => {
-  // TODO, 需要判断是否访问的登陆页面
-  let token = sessionStorage.getItem("token");
   console.log(to.path)
-  
-  if(token == null) { // TODO, 理论上这里需要跳转登录界面进行登录
-    console.log("需要登录")
-    await login().then(_res => token = _res.data.token);
-    if (token) {
-      sessionStorage.setItem("token", token); // get token 
-      // TODO : 后端验证token
-      let res = null;
-      await auth().then(_res => res = _res);
-      console.log(res);
-      if(res?.data?.user_info) {
-        sessionStorage.setItem("role", res.data.user_info.role);
-        sessionStorage.setItem("name", res.data.user_info.name);
-      } else {
-        console.log("token认证失败")
-        next("/error");
-      }
-    } else {
-      console.log("token获取失败")
-      next("/error");
-    }
-  }
-
-  if(to.meta.requiresAuth) {
+  if(to.path === "/error" || to.path === "/login") {
+    next();
+  } else if(to.path === "/") {
+    let token = sessionStorage.getItem("token");
+    let role = sessionStorage.getItem("role");
+    if(token == null || role == null) next("/login");
+    else next(); 
+  } else if(to.meta.requiresAuth) {
     if(to.meta.requiresAuth.some(role => role.toString() === sessionStorage.getItem("role"))) { //有权限
       console.log("获得访问权限")
       next();
     } else {
       console.log("无权限访问")
-      next("/error"); //无权限
+      next("/"); //无权限,跳回主页
     }
-  }
-  else { //页面没有权限限制，直接访问
-    console.log("直接访问")
+  } else { // 非法路径, 直接next (跳转error)
     next();
   }
 });
