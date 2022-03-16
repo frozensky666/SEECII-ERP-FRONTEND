@@ -2,9 +2,6 @@
   <Layout>
     <Title title="商品分类管理"></Title>
     <div class="classification-body">
-      <div class="button-container">
-        <el-button type="primary" @click="append(0)" class="button">新增一级商品分类</el-button>
-      </div>
       <el-tree
         :data="classificationList"
         node-key="id"
@@ -250,12 +247,6 @@
 .classification-body {
   width: 80%;
   margin: 0 auto;
-}
-.button-container {
-  margin-bottom: 10px;
-}
-.button {
-  border-radius: 6px;
 }
 .el-tree {
   background-color: transparent;
