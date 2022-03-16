@@ -6,25 +6,25 @@
         <el-button type="primary" @click="add()" class="button">新增一级商品分类</el-button>
       </div>
       <el-tree
-        :data="data"
+        :data="classificationList"
         node-key="id"
         default-expand-all
         :expand-on-click-node="false"
         :highlight-current="true">
         <span class="custom-tree-node" slot-scope="{ node, data }">
-          <span>{{ node.label }}</span>
+          <span>{{ data.name }}</span>
           <span>
             <el-button
               type="text"
               size="mini"
-              @click="append(node, data)">
+              @click="append(data)">
               +
             </el-button>
             <el-button
               type="text"
               size="mini"
               v-if="node.isLeaf"
-              @click="remove(node, data)">
+              @click="remove(data)">
               -
             </el-button>
           </span>
@@ -37,78 +37,71 @@
 <script>
   import Layout from "@/components/content/Layout";
   import Title from "@/components/content/Title";
-  import { getAllCommodityClassification } from "../../network/commodity";
+  import { getAllCommodityClassification,
+           deleteCommodityClassification } from "../../network/commodity";
   export default {
     components: {
         Layout,
         Title
     },
     data() {
-      const data = [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }];
       return {
-        data: JSON.parse(JSON.stringify(data)),
         classificationList: []
       }
     },
     mounted() {
       getAllCommodityClassification({}).then(_res => {
         this.classificationList = _res.result;
+        this.classificationList = JSON.parse(JSON.stringify(this.arrayToTree(this.classificationList, 0)));
+        console.log(this.classificationList);
       }).catch(err => {
         alert("获取商品分类列表失败", err);
       })
     },
     methods: {
+      // 将数组转为tree
+      arrayToTree(list, rootValue) {
+        var arr = []
+        list && list.forEach(item => {
+          if (item.parentId === rootValue) {
+            arr.push(item);
+            const child = this.arrayToTree(list, item.id);
+            if (child.length) {
+              item.children = child;
+            }
+          }
+        })
+        return arr;
+      },
       add() {
-        this.data.push({label: '一级 4', children: []})
+        
       },
-      append(node, data) {
-        console.log(node);
+      append(data) {
         console.log(data.id);
-        const newChild = { id: 100, label: 'testtest', children: [] };
-        if (!data.children) {
-          this.$set(data, 'children', []);
-        }
-        data.children.push(newChild);
       },
-      remove(node, data) {
-        const parent = node.parent;
-        const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
-        children.splice(index, 1);
+      remove(data) {
+        console.log(data.id);
+        let params = {
+          id: data.id
+        }
+        console.log(params);
+        deleteCommodityClassification(params).then(_res => {
+          console.log(_res);
+        })
+        // this.$confirm('是否删除该商品分类？', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // }).then(() => {
+        //   deleteCommodityClassification({
+        //     id: data.id
+        //   }).then(() => {
+        //     this.$message({
+        //       type: 'success',
+        //       message: '删除成功!'
+        //     });
+        //   })
+        // });
       },
     }
   };

@@ -4,7 +4,11 @@ const TEST_POST = "/api/test/post";
 
 const AUTH = "/api/auth"
 const LOGIN = "/api/login"
+
 const COMMODITY_CLASSIFICATION_ALL = '/api/category/queryAll'
+const COMMODITY_CLASSIFICATION_CREATE = '/api/category/create'
+const COMMODITY_CLASSIFICATION_DELETE = '/api/category/delete'
+
 const COMMODITY = '/api/commodity/all';
 
 module.exports = {
@@ -14,5 +18,7 @@ module.exports = {
   AUTH,
   LOGIN,
   COMMODITY_CLASSIFICATION_ALL,
+  COMMODITY_CLASSIFICATION_CREATE,
+  COMMODITY_CLASSIFICATION_DELETE,
   COMMODITY
 };
