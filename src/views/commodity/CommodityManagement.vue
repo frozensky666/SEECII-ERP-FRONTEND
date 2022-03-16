@@ -1,20 +1,102 @@
 <template>
   <Layout>
     <Title title="商品管理"></Title>
-    (商品管理（每个商品都属于一个分类，点击某个叶节点分类后能显示该分类下的所有商品。商品的属性有：编号、名称、型号、库存数量、进价、零售价、最近进价、最近零售价。因为在实际中进价和售价一直都在变化，所以一开始规定一个进价和售价作为默认值，保存一个最近的进价和售价属性。商品的增删改查包括增加商品、删除商品、修改商品和查询商品。商品编号根据其所在的分类以及添加次序自动生成。商品的查询可以通过输入关键字、商品编号等进行模糊查找。）
+    <div class="commodity-body">
+      <el-table
+        :data="commodityList.filter(data => !search || data.name.includes(search) || data.id.includes(search))"
+        style="width: 100%;"
+        :header-cell-style="{'text-align': 'center'}"
+        :cell-style="{'text-align': 'center'}">
+        <el-table-column
+          fixed
+          prop="id"
+          label="编号"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="名称"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="type"
+          label="型号"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="quantity"
+          label="库存数量"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="purchase_price"
+          label="进价"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="retail_price"
+          label="零售价"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="recent_pp"
+          label="最近进价"
+          width="100">
+        </el-table-column>
+        <el-table-column
+          prop="recent_rp"
+          label="最近零售价"
+          width="100">
+        </el-table-column>
+        <el-table-column>
+          <template slot="header">
+            <el-input
+              v-model="search"
+              size="mini"
+              placeholder="输入关键字搜索"/>
+          </template>
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="deleteRow(scope.$index, tableData)"
+              type="text"
+              size="small">
+              移除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </Layout>
 </template>
 
 <script>
   import Layout from "@/components/content/Layout";
   import Title from "@/components/content/Title";
+  import { getAllCommodity } from "../../network/commodity";
   export default {
     components: {
-        Layout,
-        Title
+      Layout,
+      Title
     },
+    data() {
+      return {
+        commodityList: [],
+        search: ''
+      }
+    },
+    mounted() {
+      getAllCommodity({}).then(_res => {
+        this.commodityList = _res.data.commodity_list;
+      }).catch(err => {
+        console.log("获取商品列表失败!", err);
+      })
+    }
   };
 </script>
 
 <style scoped>
+.commodity-body {
+  width: 80%;
+  margin: 0 auto;
+}
 </style>
