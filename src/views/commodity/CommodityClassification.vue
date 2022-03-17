@@ -163,12 +163,7 @@
             this.addForm = {};
             this.addDialogVisible = false;
             this.getAll();
-          }).catch(err => {
-            this.$message({
-              type: 'error',
-              message: '新增失败!' + err
-            });
-          });
+          })
         }
       },
       // 删除一个商品分类
@@ -183,17 +178,20 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteCommodityClassification(config).then(() => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-            this.getAll();
-          }).catch(err => {
-            this.$message({
-              type: 'error',
-              message: '删除失败' + err
-            });
+          deleteCommodityClassification(config).then(_res => {
+            console.log(_res);
+            if (_res.code === 'A0006') {
+              this.$message({
+                type: 'error',
+                message: _res.msg
+              });
+            } else {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.getAll();
+            }
           })
         }).catch(() => {
           this.$message({
@@ -237,7 +235,8 @@
         }
       },
       close() {
-        this.form = {}
+        this.addForm = {};
+        this.editForm = {};
       }
     }
   };

@@ -5,12 +5,18 @@ const TEST_POST = "/api/test/post";
 const AUTH = "/api/auth"
 const LOGIN = "/api/login"
 
+// 商品分类管理
 const COMMODITY_CLASSIFICATION_ALL = '/api/category/queryAll'
 const COMMODITY_CLASSIFICATION_CREATE = '/api/category/create'
-const COMMODITY_CLASSIFICATION_DELETE = '/api/category/delete'
 const COMMODITY_CLASSIFICATION_UPDATE = '/api/category/update'
+const COMMODITY_CLASSIFICATION_DELETE = '/api/category/delete'
 
-const COMMODITY = '/api/commodity/all';
+// 商品管理
+const COMMODITY_ALL = '/api/product/queryAll';
+const COMMODITY_CREATE = '/api/product/create';
+const COMMODITY_UPDATE = '/api/product/update';
+const COMMODITY_DELETE = '/api/product/delete';
+
 
 module.exports = {
   TEST_GET,
@@ -20,7 +26,10 @@ module.exports = {
   LOGIN,
   COMMODITY_CLASSIFICATION_ALL,
   COMMODITY_CLASSIFICATION_CREATE,
-  COMMODITY_CLASSIFICATION_DELETE,
   COMMODITY_CLASSIFICATION_UPDATE,
-  COMMODITY
+  COMMODITY_CLASSIFICATION_DELETE,
+  COMMODITY_ALL,
+  COMMODITY_CREATE,
+  COMMODITY_UPDATE,
+  COMMODITY_DELETE
 };
