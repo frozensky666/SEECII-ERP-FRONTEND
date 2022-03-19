@@ -1,5 +1,5 @@
 <template>
-  <Layout activePath="/inventoryCheck">
+  <Layout activePath="/inventoryOperation">
     <Title title="库存赠送单"></Title>
     （库存赠送单，选择一些库存中的商品进行赠送，单据提交后从库存中减去这些商品。）
   </Layout>
@@ -15,7 +15,7 @@
     },
     beforeMount() {
       if(this.$route.params.payload == null) { // 未携带参数, 跳转回库存盘点页面
-        this.$router.push("/inventoryCheck")
+        this.$router.push("/inventoryOperation")
       }
     }
   };

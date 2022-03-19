@@ -1,8 +1,8 @@
 module.exports = {
   configureWebpack: {
     devServer: {
-      port: 8085,
-      open: true,
+      port: 8000,
+      // open: true,
       host:"localhost",
       proxy: {
         '/api': {

@@ -10,7 +10,11 @@ const COMMODITY_CLASSIFICATION_CREATE = '/api/category/create'
 const COMMODITY_CLASSIFICATION_DELETE = '/api/category/delete'
 const COMMODITY_CLASSIFICATION_UPDATE = '/api/category/update'
 
+const PRODUCT_ALL = '/api/product/queryAll'
+
 const COMMODITY = '/api/commodity/all';
+
+const WAREHOUSE_INPUT = '/warehouse/input';
 
 module.exports = {
   TEST_GET,
@@ -22,5 +26,7 @@ module.exports = {
   COMMODITY_CLASSIFICATION_CREATE,
   COMMODITY_CLASSIFICATION_DELETE,
   COMMODITY_CLASSIFICATION_UPDATE,
-  COMMODITY
+  COMMODITY,
+  PRODUCT_ALL,
+  WAREHOUSE_INPUT,
 };
