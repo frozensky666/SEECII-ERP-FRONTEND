@@ -9,24 +9,24 @@
     </div>
     <div class="product__info">
       <div class="title">
-        <h1>{{ product_info.name }}</h1>
-        <span>ID: {{ product_info.id }}</span>
+        <h1>{{ my_product_info.name }}</h1>
+        <span>ID: {{ my_product_info.id }}</span>
       </div>
       <div class="type">
         <h3>类型</h3>
-        <div>{{ product_info.type }}</div>
+        <div>{{ my_product_info.type }}</div>
       </div>
       <div class="quantity">
-        库存量 <span>{{ product_info.quantity }}</span>
+        库存量 <span>{{ my_product_info.quantity }}</span>
       </div>
 
       <div class="description">
         <h3>价格详情</h3>
         <ul>
-          <li>进价: {{ product_info.purchasePrice }}</li>
-          <li>零售价: {{ product_info.retailPrice }}</li>
-          <li>最近进价: {{ product_info.recentPp }}</li>
-          <li>最近零售价: {{ product_info.recentRp }}</li>
+          <li>进价: {{ my_product_info.purchasePrice }}</li>
+          <li>零售价: {{ my_product_info.retailPrice }}</li>
+          <li>最近进价: {{ my_product_info.recentPp }}</li>
+          <li>最近零售价: {{ my_product_info.recentRp }}</li>
         </ul>
       </div>
       <button class="create-btn" @click="createInventoryIn">新建入库单</button>
@@ -40,12 +40,12 @@
     >
       <div class="basic-info">
         <div class="title">
-          <h1>{{ product_info.name }}</h1>
-          <span>ID: {{ product_info.id }}</span>
+          <h1>{{ my_product_info.name }}</h1>
+          <span>ID: {{ my_product_info.id }}</span>
         </div>
         <div class="type">
           <h3>类型</h3>
-          <div>{{ product_info.type }}</div>
+          <div>{{ my_product_info.type }}</div>
         </div>
         <div>
           入库数量
@@ -62,9 +62,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submit"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submit">确 定</el-button>
       </span>
     </el-dialog>
   </section>
@@ -75,47 +73,53 @@ import moment from "moment";
 
 export default {
   name: "productInfoCard",
-  props: {
-    product_info2: {
-      type: Object,
-    }
-  },
+  props: [
+    "product_info",
+  ],
   data() {
     return {
-      product_info: {
-        id: "0000000000400000",
-        name: "戴尔电脑",
-        categoryId: 4,
-        type: "戴尔(DELL)Vostro笔记本电脑5410 金色 戴尔成就3500Vostro1625D",
-        quantity: 3200,
-        purchasePrice: 3000.0,
-        retailPrice: 4056.0,
-        recentPp: 3250.0,
-        recentRp: null
-      },
+      // product_info2: {
+      //   id: "0000000000400000",
+      //   name: "戴尔电脑",
+      //   categoryId: 4,
+      //   type: "戴尔(DELL)Vostro笔记本电脑5410 金色 戴尔成就3500Vostro1625D",
+      //   quantity: 3200,
+      //   purchasePrice: 3000.0,
+      //   retailPrice: 4056.0,
+      //   recentPp: 3250.0,
+      //   recentRp: null
+      // },
+      my_product_info: {},
       dialogVisible: false,
       inventory_in: {
         purchasePrice: 0,
         quantity: 0,
-        remark: "",
+        remark: ""
       }
     };
   },
   mounted() {
-    console.log(this.product_info2);
+  },
+  computed: {
+  },
+  watch: {
+    product_info() {
+      this.my_product_info = this.product_info;
+    },
+
   },
   methods: {
     createInventoryIn() {
       this.dialogVisible = true;
     },
     handleClose(done) {
-      this.$confirm('确认关闭？')
+      this.$confirm("确认关闭？")
         .then(_ => {
           done();
         })
         .catch(_ => {});
     },
-    submit(){
+    submit() {
       this.inventory_in["pid"] = this.product_info.id;
       this.inventory_in["productionDate"] = moment().format();
       this.$emit("handleSubmit", this.inventory_in);

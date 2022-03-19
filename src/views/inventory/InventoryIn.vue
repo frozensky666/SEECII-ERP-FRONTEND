@@ -37,7 +37,9 @@
     </div>
 
     <product-info-card
+      v-if="cur_product"
       class="info-card"
+      :product_info="cur_product"
       @handleSubmit="handleSubmit"
     ></product-info-card>
   </Layout>
@@ -48,7 +50,6 @@ import Layout from "@/components/content/Layout";
 import Title from "@/components/content/Title";
 import { findAllProduct } from "@/network/product";
 import ProductInfoCard from "@/views/inventory/components/productInfoCard";
-import { warehouseInput } from "@/network/warehouse";
 export default {
   name: "inventoryAdd",
   components: {
@@ -59,16 +60,12 @@ export default {
   data() {
     return {
       selected_product: "",
-      all_products: []
+      cur_product: null,
+      all_products: [],
     };
   },
   mounted() {
     this.fetchData();
-  },
-  computed: {
-    findProductInfo() {
-      return this.all_products.find(item => item.name === this.selected_product);
-    }
   },
   methods: {
     fetchData() {
@@ -101,6 +98,8 @@ export default {
     handleSelect(item) {
       console.log(item);
       console.log(this.selected_product);
+      this.cur_product = this.all_products.find(i => i.name === item.value && i.id === item.id);
+      console.log("cur_product", this.cur_product);
     },
     handleIconClick(ev) {
       console.log(ev);
