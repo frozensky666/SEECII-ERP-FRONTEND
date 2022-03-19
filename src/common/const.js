@@ -23,8 +23,20 @@ export const PATH = {
     path: '/commodityManagement',
     requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
   },
+  INVENTORY_OPERATION: {
+    path: '/inventoryOperation',
+    requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
+  },
   INVENTORY_CHECK: {
     path: '/inventoryCheck',
+    requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
+  },
+  INVENTORY_IN: {
+    path: '/inventoryIn',
+    requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
+  },
+  INVENTORY_OUT: {
+    path: '/inventoryOut',
     requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
   },
   INVENTORY_LOSS: {

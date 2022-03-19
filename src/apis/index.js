@@ -18,6 +18,8 @@ const COMMODITY_UPDATE = '/api/product/update';
 const COMMODITY_DELETE = '/api/product/delete';
 
 
+const WAREHOUSE_INPUT = '/warehouse/input';
+
 module.exports = {
   TEST_GET,
   TEST_POST,
@@ -28,8 +30,11 @@ module.exports = {
   COMMODITY_CLASSIFICATION_CREATE,
   COMMODITY_CLASSIFICATION_UPDATE,
   COMMODITY_CLASSIFICATION_DELETE,
+  
   COMMODITY_ALL,
   COMMODITY_CREATE,
   COMMODITY_UPDATE,
-  COMMODITY_DELETE
+  COMMODITY_DELETE,
+
+  WAREHOUSE_INPUT,
 };

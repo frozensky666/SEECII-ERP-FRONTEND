@@ -5,9 +5,15 @@ import { ROLE, PATH } from "../common/const";
 const Error = () => import("../components/content/Error");
 const Login = () => import("../views/auth/Login");
 const Home = () => import("../views/Home");
-const CommodityManagement = () => import("../views/commodity/CommodityManagement");
-const CommodityClassification = () => import("../views/commodity/CommodityClassification");
+const CommodityManagement = () =>
+  import("../views/commodity/CommodityManagement");
+const CommodityClassification = () =>
+  import("../views/commodity/CommodityClassification");
 const InventoryCheck = () => import("../views/inventory/InventoryCheck");
+const InventoryOperation = () =>
+  import("../views/inventory/InventoryOperation");
+const InventoryIn = () => import("../views/inventory/InventoryIn");
+const InventoryOut = () => import("../views/inventory/InventoryOut");
 const InventoryLoss = () => import("../views/inventory/InventoryLoss");
 const InventoryOverflow = () => import("../views/inventory/InventoryOverflow");
 const InventoryPresent = () => import("../views/inventory/InventoryPresent");
@@ -19,15 +25,15 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     component: Home
   },
   {
-    path: '/error',
+    path: "/error",
     component: Error
   },
   {
-    path: '/login',
+    path: "/login",
     component: Login
   },
   // 商品管理
@@ -48,6 +54,24 @@ const routes = [
     meta: { requiresAuth: PATH.INVENTORY_CHECK.requiresAuth }
   },
   {
+    path: PATH.INVENTORY_OPERATION.path,
+    component: InventoryOperation,
+    name: "InventoryOperation",
+    meta: { requiresAuth: PATH.INVENTORY_OPERATION.requiresAuth }
+  },
+  {
+    path: PATH.INVENTORY_IN.path,
+    component: InventoryIn,
+    name: "InventoryIn",
+    meta: { requiresAuth: PATH.INVENTORY_LOSS.requiresAuth }
+  },
+  {
+    path: PATH.INVENTORY_OUT.path,
+    component: InventoryOut,
+    name: "InventoryOut",
+    meta: { requiresAuth: PATH.INVENTORY_LOSS.requiresAuth }
+  },
+  {
     path: PATH.INVENTORY_LOSS.path,
     component: InventoryLoss,
     name: "InventoryLoss",
@@ -57,7 +81,7 @@ const routes = [
     path: PATH.INVENTORY_OVERFLOW.path,
     component: InventoryOverflow,
     name: "InventoryOverflow",
-    meta: { requiresAuth: PATH.INVENTORY_OVERFLOW.requiresAuth}
+    meta: { requiresAuth: PATH.INVENTORY_OVERFLOW.requiresAuth }
   },
   {
     path: PATH.INVENTORY_PRESENT.path,
@@ -83,10 +107,10 @@ const routes = [
     meta: { requiresAuth: PATH.GM_APPROVAL.requiresAuth }
   },
 
-// -----------------------未找到页面-----------------------------
+  // -----------------------未找到页面-----------------------------
   {
-    path: '*',
-    redirect: '/error'
+    path: "*",
+    redirect: "/error"
   }
 ];
 
@@ -96,25 +120,30 @@ const router = new VueRouter({
   routes
 });
 
-
-router.beforeEach(async (to,from,next) => {
-  console.log(to.path)
-  if(to.path === "/error" || to.path === "/login") {
+router.beforeEach(async (to, from, next) => {
+  console.log(to.path);
+  if (to.path === "/error" || to.path === "/login") {
     next();
-  } else if(to.path === "/") {
+  } else if (to.path === "/") {
     let token = sessionStorage.getItem("token");
     let role = sessionStorage.getItem("role");
-    if(token == null || role == null) next("/login");
-    else next(); 
-  } else if(to.meta.requiresAuth) {
-    if(to.meta.requiresAuth.some(role => role.toString() === sessionStorage.getItem("role"))) { //有权限
-      console.log("获得访问权限")
+    if (token == null || role == null) next("/login");
+    else next();
+  } else if (to.meta.requiresAuth) {
+    if (
+      to.meta.requiresAuth.some(
+        role => role.toString() === sessionStorage.getItem("role")
+      )
+    ) {
+      //有权限
+      console.log("获得访问权限");
       next();
     } else {
-      console.log("无权限访问")
+      console.log("无权限访问");
       next("/"); //无权限,跳回主页
     }
-  } else { // 非法路径, 直接next (跳转error)
+  } else {
+    // 非法路径, 直接next (跳转error)
     next();
   }
 });
