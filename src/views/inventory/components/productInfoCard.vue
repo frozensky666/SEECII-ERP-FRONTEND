@@ -155,7 +155,7 @@ $color-highlight: #a486c7;
 }
 
 h3 {
-  font-size: 0.7em;
+  //font-size: 0.7em;
   letter-spacing: 1.2px;
   color: $color-secondary;
 }

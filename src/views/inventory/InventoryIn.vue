@@ -1,99 +1,28 @@
 <template>
-  <Layout activePath="/inventoryOperation">
-    <Title title="库存入库单"></Title>
-
-    <div class="select-wrapper">
-      <el-autocomplete
-        class="myAutocomplete"
-        v-model="selected_product"
-        :fetch-suggestions="querySearch"
-        placeholder="请选择商品"
-        @select="handleSelect"
-        :popper-append-to-body="false"
-      >
-        <i
-          class="el-icon-edit el-input__icon"
-          slot="suffix"
-          @click="handleIconClick"
-        >
-        </i>
-        <template slot-scope="{ item }">
-          <div class="name">{{ item.value }}</div>
-          <span class="id">id: {{ item.id }}</span>
-        </template>
-      </el-autocomplete>
-    </div>
-
-    <product-info-card
-      v-if="cur_product"
-      class="info-card"
-      :product_info="cur_product"
-      @handleSubmit="handleSubmit"
-    ></product-info-card>
-  </Layout>
+  <InventoryInOutCard
+    :card_type="card_type"
+    @handleSubmit="handleSubmit"
+  ></InventoryInOutCard>
 </template>
 
 <script>
-import Title from "@/components/content/Title";
-import Layout from "@/components/content/Layout";
-import ProductInfoCard from "@/views/inventory/components/productInfoCard";
+import InventoryInOutCard from "@/views/inventory/components/InventoryInOutCard";
 import { warehouseInput } from "@/network/warehouse";
-import { findAllProduct } from "@/network/product";
 
 export default {
   name: "inventoryAdd",
   components: {
-    Title,
-    Layout,
-    ProductInfoCard
+    InventoryInOutCard,
   },
   data() {
     return {
-      selected_product: "",
-      cur_product: null,
-      all_products: []
+      card_type: "入库",
     };
   },
   mounted() {
     this.fetchData();
   },
   methods: {
-    fetchData() {
-      findAllProduct()
-        .then(_res => {
-          console.log("fetchProduct", _res);
-          this.all_products = _res.result;
-        })
-        .catch(_err => {
-          console.log(_err);
-        });
-    },
-    querySearch(queryString, cb) {
-      let products = this.all_products.map(item => {
-        return {
-          value: item.name,
-          id: item.id
-        };
-      });
-      let results = queryString
-        ? products.filter(
-            item =>
-              item.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1
-          )
-        : products; //注意这里的item.value
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
-    handleSelect(item) {
-      console.log("selected_product", this.selected_product);
-      this.cur_product = this.all_products.find(
-        i => i.name === item.value && i.id === item.id
-      );
-      console.log("cur_product", this.cur_product);
-    },
-    handleIconClick(ev) {
-      console.log(ev);
-    },
     handleSubmit(submitInfo) {
       console.log("submitInfo", submitInfo);
       //TODO: vuex获取操作人姓名
@@ -124,36 +53,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.select-wrapper {
-  width: 980px;
-  margin: 70px auto 30px auto;
-
-  .myAutocomplete {
-    width: 350px;
-
-    /deep/ li {
-      padding: 10px 20px;
-      line-height: 20px;
-
-      .name {
-        font-size: 14px;
-        font-weight: 500;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .id {
-        font-size: 12px;
-        color: #b4b4b4;
-      }
-
-      .highlighted .id {
-        color: #ddd;
-      }
-    }
-  }
-
-  .info-card {
-    margin-top: 100px;
-  }
-}
 </style>
