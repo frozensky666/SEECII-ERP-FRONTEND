@@ -9,55 +9,70 @@
     </div>
     <div class="product__info">
       <div class="title">
-        <h1>{{ my_product_info.name }}</h1>
-        <span>ID: {{ my_product_info.id }}</span>
+        <h1>{{ product_info.name }}</h1>
+        <span>ID: {{ product_info.id }}</span>
       </div>
       <div class="type">
         <h3>类型</h3>
-        <div>{{ my_product_info.type }}</div>
+        <div>{{ product_info.type }}</div>
       </div>
       <div class="quantity">
-        库存量 <span>{{ my_product_info.quantity }}</span>
+        库存量 <span>{{ product_info.quantity }}</span>
       </div>
 
       <div class="description">
         <h3>价格详情</h3>
         <ul>
-          <li>进价: {{ my_product_info.purchasePrice }}</li>
-          <li>零售价: {{ my_product_info.retailPrice }}</li>
-          <li>最近进价: {{ my_product_info.recentPp }}</li>
-          <li>最近零售价: {{ my_product_info.recentRp }}</li>
+          <li>进价: {{ product_info.purchasePrice }}</li>
+          <li>零售价: {{ product_info.retailPrice }}</li>
+          <li>最近进价: {{ product_info.recentPp }}</li>
+          <li>最近零售价: {{ product_info.recentRp }}</li>
         </ul>
       </div>
-      <button class="create-btn" @click="createInventoryIn">新建入库单</button>
+      <button class="create-btn" @click="createInventoryIn">
+        {{type_info.button_name}}
+      </button>
     </div>
 
     <el-dialog
-      title="新建入库单"
+      :title="type_info.dialog_name"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="40%"
       :before-close="handleClose"
     >
       <div class="basic-info">
         <div class="title">
-          <h1>{{ my_product_info.name }}</h1>
-          <span>ID: {{ my_product_info.id }}</span>
+          <h1>{{ product_info.name }}</h1>
+          <span>ID: {{ product_info.id }}</span>
+        </div>
+        <div class="photo-box">
+          <img src="@/assets/pic/dell.png" alt="dell computer" />
         </div>
         <div class="type">
           <h3>类型</h3>
-          <div>{{ my_product_info.type }}</div>
+          <div>{{ product_info.type }}</div>
         </div>
-        <div>
-          入库数量
-          <el-input v-model="inventory_in.quantity" />
-        </div>
-        <div>
-          进价
-          <el-input v-model="inventory_in.purchasePrice" />
-        </div>
-        <div>
-          备注
-          <el-input type="textarea" v-model="inventory_in.remark" />
+        <div class="input-content">
+          <div class="group">
+            <input type="text" v-model="inventory_in.quantity" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>{{type_info.quantity}}</label>
+          </div>
+
+          <div class="group" v-if="card_type === '入库'">
+            <input type="text" v-model="inventory_in.purchasePrice" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>{{ type_info.price }}</label>
+
+          </div>
+          <div class="group">
+            <textarea type="text" v-model="inventory_in.remark" required />
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>备注</label>
+          </div>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -73,40 +88,39 @@ import moment from "moment";
 
 export default {
   name: "productInfoCard",
-  props: [
-    "product_info",
-  ],
+  props: ["product_info", "card_type"],
   data() {
     return {
-      // product_info2: {
-      //   id: "0000000000400000",
-      //   name: "戴尔电脑",
-      //   categoryId: 4,
-      //   type: "戴尔(DELL)Vostro笔记本电脑5410 金色 戴尔成就3500Vostro1625D",
-      //   quantity: 3200,
-      //   purchasePrice: 3000.0,
-      //   retailPrice: 4056.0,
-      //   recentPp: 3250.0,
-      //   recentRp: null
-      // },
-      my_product_info: {},
       dialogVisible: false,
       inventory_in: {
-        purchasePrice: 0,
-        quantity: 0,
-        remark: ""
+        purchasePrice: null,
+        quantity: null,
+        remark: null,
       }
     };
   },
   mounted() {
+    console.log("product_info", this.product_info);
   },
   computed: {
-  },
-  watch: {
-    product_info() {
-      this.my_product_info = this.product_info;
-    },
-
+    type_info(){
+      if (this.card_type === "入库") {
+        return {
+          quantity: "入库数量",
+          price: "进价",
+          button_name: "新建入库单",
+          dialog_name: "新建入库单",
+        };
+      } else if (this.card_type === "出库") {
+        return {
+          quantity: "出库数量",
+          price: "出价",
+          button_name: "新建出库单",
+          dialog_name: "新建出库单",
+        }
+      }
+      return "";
+    }
   },
   methods: {
     createInventoryIn() {
@@ -194,6 +208,7 @@ img {
   /* ----- Informations Section ----- */
   .product__info {
     padding: 0.8em 0;
+    margin-left: 2.5em;
 
     .title {
       h1 {
@@ -260,6 +275,135 @@ img {
 
       &:active {
         transform: scale(0.97);
+      }
+    }
+  }
+
+  .basic-info {
+    position: relative;
+
+    .photo-box {
+      position: absolute;
+      top: 25px;
+      right: 50px;
+      img {
+        width: 100px;
+        height: 80px;
+      }
+    }
+
+    .input-content {
+      .group 			  {
+        position:relative;
+        margin:45px 0;
+      }
+      input 				{
+        font-size:18px;
+        padding:10px 10px 10px 5px;
+        display:block;
+        width:300px;
+        border:none;
+        border-bottom:1px solid #757575;
+      }
+      input:focus 		{ outline:none; }
+
+      textarea {
+        font-size:18px;
+        padding:10px 10px 10px 5px;
+        width: 300px;
+        border: none;
+        border-bottom:1px solid #757575;
+      }
+      textarea:focus {
+        outline: none;
+      }
+
+      /* LABEL ======================================= */
+      label 				 {
+        color:#999;
+        font-size:18px;
+        font-weight:normal;
+        position:absolute;
+        pointer-events:none;
+        left:5px;
+        top:10px;
+        transition:0.2s ease all;
+        -moz-transition:0.2s ease all;
+        -webkit-transition:0.2s ease all;
+      }
+
+      /* active state */
+      input:focus ~ label, input:valid ~ label 		{
+        top:-20px;
+        font-size:14px;
+        color:#5264AE;
+      }
+
+      textarea:focus ~ label, textarea:valid ~label {
+        top: -20px;
+        font-size: 14px;
+        color: #5264AE;
+      }
+
+      /* BOTTOM BARS ================================= */
+      .bar 	{ position:relative; display:block; width:300px; }
+      .bar:before, .bar:after 	{
+        content:'';
+        height:2px;
+        width:0;
+        bottom:1px;
+        position:absolute;
+        background:#5264AE;
+        transition:0.2s ease all;
+        -moz-transition:0.2s ease all;
+        -webkit-transition:0.2s ease all;
+      }
+      .bar:before {
+        left: 50%;
+      }
+      .bar:after {
+        right: 50%;
+      }
+
+      /* active state */
+      input:focus ~ .bar:before, input:focus ~ .bar:after {
+        width:50%;
+      }
+
+      textarea:focus ~ .bar:before, textarea:focus ~ .bar:after {
+        width:50%;
+      }
+
+      /* HIGHLIGHTER ================================== */
+      .highlight {
+        position:absolute;
+        height:60%;
+        width:100px;
+        top:25%;
+        left:0;
+        pointer-events:none;
+        opacity:0.5;
+      }
+
+      /* active state */
+      input:focus ~ .highlight {
+        -webkit-animation:inputHighlighter 0.3s ease;
+        -moz-animation:inputHighlighter 0.3s ease;
+        animation:inputHighlighter 0.3s ease;
+      }
+
+      /* ANIMATIONS ================ */
+      @-webkit-keyframes inputHighlighter {
+        from { background:#5264AE; }
+        to 	{ width:0; background:transparent; }
+      }
+      @-moz-keyframes inputHighlighter {
+        from { background:#5264AE; }
+        to 	{ width:0; background:transparent; }
+      }
+      @keyframes inputHighlighter {
+        from { background:#5264AE; }
+        to 	{ width:0; background:transparent; }
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <Layout activePath="/inventoryOperation">
-    <Title title="库存入库单"></Title>
+    <Title :title="type_info"></Title>
 
     <div class="select-wrapper">
       <el-autocomplete
@@ -27,6 +27,7 @@
     <product-info-card
       v-if="cur_product"
       class="info-card"
+      :card_type="card_type"
       :product_info="cur_product"
       @handleSubmit="handleSubmit"
     ></product-info-card>
@@ -37,15 +38,20 @@
 import Title from "@/components/content/Title";
 import Layout from "@/components/content/Layout";
 import ProductInfoCard from "@/views/inventory/components/productInfoCard";
-import { warehouseInput } from "@/network/warehouse";
 import { findAllProduct } from "@/network/product";
 
 export default {
-  name: "inventoryAdd",
+  name: "InventoryInOutCard",
   components: {
     Title,
     Layout,
     ProductInfoCard
+  },
+  props: {
+    card_type: {
+      type: String,
+      default: "入库"
+    }
   },
   data() {
     return {
@@ -56,6 +62,16 @@ export default {
   },
   mounted() {
     this.fetchData();
+  },
+  computed: {
+    type_info() {
+      if (this.card_type === "入库") {
+        return "库存入库单";
+      } else if (this.card_type === "出库") {
+        return "库存出库单";
+      }
+      return "";
+    }
   },
   methods: {
     fetchData() {
@@ -96,28 +112,7 @@ export default {
     },
     handleSubmit(submitInfo) {
       console.log("submitInfo", submitInfo);
-      //TODO: vuex获取操作人姓名
-      let tempList = [];
-      tempList.push(submitInfo);
-
-      warehouseInput({
-        list: tempList,
-        operator: "Leonezhurui"
-      })
-        .then(_res => {
-          console.log(_res);
-          this.$message({
-            message: _res.result,
-            type: "success"
-          });
-        })
-        .catch(_err => {
-          console.log(_err);
-          this.$message({
-            message: _err.result,
-            type: "error"
-          });
-        });
+      this.$emit("handleSubmit", submitInfo);
     }
   }
 };

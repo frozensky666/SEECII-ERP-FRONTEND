@@ -18,7 +18,9 @@ const COMMODITY_UPDATE = '/api/product/update';
 const COMMODITY_DELETE = '/api/product/delete';
 
 
-const WAREHOUSE_INPUT = '/warehouse/input';
+const WAREHOUSE_INPUT = '/api/warehouse/input';
+const WAREHOUSE_OUTPUT_PRE = '/api/warehouse/product/count';
+const WAREHOUSE_OUTPUT = '/api/warehouse/output';
 
 module.exports = {
   TEST_GET,
@@ -37,4 +39,6 @@ module.exports = {
   COMMODITY_DELETE,
 
   WAREHOUSE_INPUT,
+  WAREHOUSE_OUTPUT_PRE,
+  WAREHOUSE_OUTPUT,
 };
