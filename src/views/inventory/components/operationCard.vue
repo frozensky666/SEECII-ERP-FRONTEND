@@ -3,7 +3,7 @@
     <div class="left">
       <div class="title">{{ info.title }}</div>
       <div class="content">
-        <div v-if="!testJpg">
+        <div v-if="!testPic">
           {{ info.content }}
         </div>
         <div v-else>
@@ -26,8 +26,8 @@ export default {
     info: {}
   },
   computed: {
-    testJpg() {
-      let reg = /.jpg|.png|.jpeg$/;
+    testPic() {
+      let reg = /.png|.jpg|.jpeg$/; //正则表达式，判断content是否是图片
       return reg.test(this.info.content);
     }
   },

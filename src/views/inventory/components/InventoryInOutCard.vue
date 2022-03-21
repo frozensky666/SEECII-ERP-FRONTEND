@@ -48,7 +48,7 @@ export default {
     ProductInfoCard
   },
   props: {
-    card_type: {
+    card_type: { // 根据该props值，确定是出库还是入库，出库、入库显示不同的界面
       type: String,
       default: "入库"
     }
@@ -101,17 +101,17 @@ export default {
       cb(results);
     },
     handleSelect(item) {
-      console.log("selected_product", this.selected_product);
+      // name和id完全匹配，才确定了 当前的product
       this.cur_product = this.all_products.find(
         i => i.name === item.value && i.id === item.id
       );
-      console.log("cur_product", this.cur_product);
     },
     handleIconClick(ev) {
+      //TODO My:点击清空input中的值
       console.log(ev);
     },
     handleSubmit(submitInfo) {
-      console.log("submitInfo", submitInfo);
+      console.log("InventoryInOutCard submitInfo", submitInfo); //打印 子组件传递过来的值
       this.$emit("handleSubmit", submitInfo);
     }
   }

@@ -18,7 +18,9 @@
         </div>
         <div class="photo-box">
           <img src="@/assets/pic/dell.png" alt="dell computer" />
+<!--          图片写死-->
         </div>
+<!--        TODO My:使用v-for重写下面的代码；修改class="type"的样式-->
         <div class="type">
           <h3>类型</h3>
           <div>{{ product_info.type }}</div>
@@ -62,7 +64,7 @@ import InventoryInOutCard from "@/views/inventory/components/InventoryInOutCard"
 import { warehouseOutput, warehouseOutputPre } from "@/network/warehouse";
 
 export default {
-  name: "inventory",
+  name: "inventoryOut",
   components: {
     InventoryInOutCard
   },
@@ -71,7 +73,7 @@ export default {
       card_type: "出库",
       inventoryOutConfirmList: [],
       dialogVisible: false,
-      product_info: {
+      product_info: { // 写死的数据；TODO My:根据productId获取product的所有信息
         "id": "0000000000400000",
         "name": "戴尔电脑",
         "type": "戴尔(DELL)Vostro笔记本电脑5410 金色 戴尔成就3500Vostro1625D",
@@ -80,9 +82,9 @@ export default {
   },
   methods: {
     handleSubmit(submitInfo) {
-      console.log("submitInfo", submitInfo);
+      console.log("inventoryOut submitInfo", submitInfo); //打印 子组件传递的值
 
-      warehouseOutputPre({
+      warehouseOutputPre({ //先调用该接口，确认
         pid: submitInfo.pid,
         quantity: submitInfo.quantity,
         remark: submitInfo.remark
@@ -112,8 +114,7 @@ export default {
         .catch(_ => {});
     },
     handleConfirm() {
-      // TODO 获得库存管理员姓名
-      // TODO 数组长度大于1的情形
+      // TODO My:获得库存管理员姓名
       warehouseOutput({
         list: this.inventoryOutConfirmList.map(item => {
           return {

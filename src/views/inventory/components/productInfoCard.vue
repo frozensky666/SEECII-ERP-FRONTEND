@@ -4,6 +4,7 @@
       <div class="photo-container">
         <div class="photo-main">
           <img src="@/assets/pic/dell.png" alt="dell computer" />
+<!--          Tip：图片是写死的；关注整个系统，不用太多关注UI-->
         </div>
       </div>
     </div>
@@ -100,10 +101,9 @@ export default {
     };
   },
   mounted() {
-    console.log("product_info", this.product_info);
   },
   computed: {
-    type_info(){
+    type_info(){ //根据类型(入库或出库)，显示不同的界面内容
       if (this.card_type === "入库") {
         return {
           quantity: "入库数量",
@@ -124,9 +124,9 @@ export default {
   },
   methods: {
     createInventoryIn() {
-      this.dialogVisible = true;
+      this.dialogVisible = true; //打开dialog
     },
-    handleClose(done) {
+    handleClose(done) { //el-dialog提供的方法，关闭dialog
       this.$confirm("确认关闭？")
         .then(_ => {
           done();
@@ -135,9 +135,9 @@ export default {
     },
     submit() {
       this.inventory_in["pid"] = this.product_info.id;
-      this.inventory_in["productionDate"] = moment().format();
-      this.$emit("handleSubmit", this.inventory_in);
-      this.dialogVisible = false;
+      this.inventory_in["productionDate"] = moment().format(); // 使用moment包创建当前时间
+      this.$emit("handleSubmit", this.inventory_in); // 向父组件传递数据
+      this.dialogVisible = false; //关闭dialog
     }
   }
 };

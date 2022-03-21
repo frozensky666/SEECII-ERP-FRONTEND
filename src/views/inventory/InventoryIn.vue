@@ -10,7 +10,7 @@ import InventoryInOutCard from "@/views/inventory/components/InventoryInOutCard"
 import { warehouseInput } from "@/network/warehouse";
 
 export default {
-  name: "inventoryAdd",
+  name: "inventoryIn",
   components: {
     InventoryInOutCard,
   },
@@ -20,12 +20,11 @@ export default {
     };
   },
   mounted() {
-    this.fetchData();
   },
   methods: {
     handleSubmit(submitInfo) {
-      console.log("submitInfo", submitInfo);
-      //TODO: vuex获取操作人姓名
+      console.log("inventoryIn submitInfo", submitInfo); //打印 子组件传递过来的值
+      //TODO My:vuex获取操作人姓名
       let tempList = [];
       tempList.push(submitInfo);
 

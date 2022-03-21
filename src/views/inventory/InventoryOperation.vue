@@ -1,8 +1,8 @@
 <template>
   <Layout>
     <Title title="库存操作"></Title>
-    <Echarts :chart-axis="chartAxis" :chart-data="chartData"></Echarts>
-
+    <Echarts :chart-axis="chartAxis" :chart-data="chartData" v-if="product_data.length!==0"></Echarts>
+    <!--上面v-if：异步请求到数据之后，computed再次计算，再完成实际表格内容的渲染-->
     <div class="operation_list">
       <div class="operation_wrapper">
         <div v-for="(item, index) in operation" :key="index" class="info-item">
@@ -10,7 +10,6 @@
         </div>
       </div>
     </div>
-
   </Layout>
 </template>
 
@@ -110,18 +109,18 @@ export default {
           content: "点击以报警",
           avatar: require("@/assets/pic/warning.svg")
         }
-      ]
+      ],
     };
   },
-  mounted() {
+  created() {
     this.fetchData();
   },
   computed: {
     chartData() {
-      return this.test_data.map(item => item.quantity);
+      return this.product_data.map(item => item.quantity);
     },
     chartAxis() {
-      return this.test_data.map(item => item.name);
+      return this.product_data.map(item => item.name);
     }
   },
   methods: {
@@ -146,7 +145,7 @@ export default {
 <style lang="scss" scoped>
 .operation_list {
   margin: 30px 250px;
-  width: 1000px; //TODO 不能写成固定值
+  width: 1000px; //TODO My:不要写成固定值
   overflow: hidden;
 
   .operation_wrapper {
