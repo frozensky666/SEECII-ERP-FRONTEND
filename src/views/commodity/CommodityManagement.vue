@@ -183,7 +183,10 @@
         })
         this.classificationList = tempList;
       }).catch(err => {
-        alert("获取商品分类列表失败", err);
+        this.$message({
+          type: 'error',
+          message: '获取商品分类列表失败!' + err
+        })
       })
     },
     methods: {

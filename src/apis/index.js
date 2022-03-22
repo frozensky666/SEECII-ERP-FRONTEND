@@ -4,6 +4,7 @@ const TEST_POST = "/api/test/post";
 
 const AUTH = "/api/auth"
 const LOGIN = "/api/login"
+const REGISTER = '/api/register'
 
 // 商品分类管理
 const COMMODITY_CLASSIFICATION_ALL = '/api/category/queryAll'
@@ -28,6 +29,7 @@ module.exports = {
 
   AUTH,
   LOGIN,
+  REGISTER,
   COMMODITY_CLASSIFICATION_ALL,
   COMMODITY_CLASSIFICATION_CREATE,
   COMMODITY_CLASSIFICATION_UPDATE,

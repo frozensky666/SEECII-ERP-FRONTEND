@@ -126,7 +126,7 @@ export default {
   .myAutocomplete {
     width: 350px;
 
-    /deep/ li {
+    ::v-deep li {
       padding: 10px 20px;
       line-height: 20px;
 

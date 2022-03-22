@@ -114,7 +114,10 @@
           this.classificationList = JSON.parse(JSON.stringify(this.arrayToTree(this.classificationList, 0)));
           console.log(this.classificationList);
         }).catch(err => {
-          alert("获取商品分类列表失败", err);
+          this.$message({
+            type: 'error',
+            message: '获取商品分类列表失败!'
+          });
         })
       },
       // 将数组转为tree

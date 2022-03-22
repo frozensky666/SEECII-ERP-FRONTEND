@@ -36,6 +36,10 @@ const routes = [
     path: "/login",
     component: Login
   },
+  {
+    path: "/register",
+    component: () => import("@/views/auth/register.vue")
+  },
   // 商品管理
   {
     path: PATH.COMMODITY_CLASSIFICATION.path,
