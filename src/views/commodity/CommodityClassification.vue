@@ -46,7 +46,7 @@
           <el-input v-model="addForm.parentId" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="名 称" :label-width="'60px'">
-          <el-input v-model="addForm.name" autocomplete="off"></el-input>
+          <el-input v-model="addForm.name"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -65,7 +65,7 @@
           <el-input v-model="editForm.id" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="名 称" :label-width="'60px'">
-          <el-input v-model="editForm.name" autocomplete="off"></el-input>
+          <el-input v-model="editForm.name"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
