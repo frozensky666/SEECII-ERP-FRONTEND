@@ -2,9 +2,9 @@
 const TEST_GET = "/api/test/get";
 const TEST_POST = "/api/test/post";
 
-const AUTH = "/api/auth"
-const LOGIN = "/api/login"
-const REGISTER = '/api/register'
+const AUTH = "/api/user/auth"
+const LOGIN = "/api/user/login"
+const REGISTER = '/api/user/register'
 
 // 商品分类管理
 const COMMODITY_CLASSIFICATION_ALL = '/api/category/queryAll'
@@ -22,6 +22,14 @@ const COMMODITY_DELETE = '/api/product/delete';
 const WAREHOUSE_INPUT = '/api/warehouse/input';
 const WAREHOUSE_OUTPUT_PRE = '/api/warehouse/product/count';
 const WAREHOUSE_OUTPUT = '/api/warehouse/output';
+
+
+// 销售管理
+const SALE_PURCHASE_ALL = '/api/purchase/sheet-show';
+const SALE_PURCHASE_CREATE = '/api/purchase/sheet-make';
+const SALE_FIRST_APPROVAL = '/api/purchase/first-approval';
+const SALE_SECOND_APPROVAL = '/api/purchase/second-approval';
+const SALE_CUSTOMER_QUERY = '/api/customer/findByType';
 
 module.exports = {
   TEST_GET,
@@ -43,4 +51,10 @@ module.exports = {
   WAREHOUSE_INPUT,
   WAREHOUSE_OUTPUT_PRE,
   WAREHOUSE_OUTPUT,
+
+  SALE_PURCHASE_ALL,
+  SALE_PURCHASE_CREATE,
+  SALE_FIRST_APPROVAL,
+  SALE_SECOND_APPROVAL,
+  SALE_CUSTOMER_QUERY,
 };

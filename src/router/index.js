@@ -19,6 +19,8 @@ const InventoryOverflow = () => import("../views/inventory/InventoryOverflow");
 const InventoryPresent = () => import("../views/inventory/InventoryPresent");
 const InventoryView = () => import("../views/inventory/InventoryView");
 const InventoryWarning = () => import("../views/inventory/InventoryWarning");
+const PurchaseView = () => import("../views/sale/PurchaseView")
+const CustomerView = () => import ("../views/sale/CustomerView");
 const Approval = () => import("../views/approval/Approval");
 
 Vue.use(VueRouter);
@@ -104,6 +106,19 @@ const routes = [
     name: "InventoryWarning",
     meta: { requiresAuth: PATH.INVENTORY_WARNING.requiresAuth }
   },
+  // 销售管理
+  {
+    path: PATH.PURCHASE_VIEW.path,
+    component: PurchaseView,
+    name: "PurchaseView",
+    meta: { requiresAuth: PATH.PURCHASE_VIEW.requiresAuth }
+  },
+  {
+    path: PATH.CUSTOMER_VIEW.path,
+    component: CustomerView,
+    name: "CustomerView",
+    meta: { requiresAuth: PATH.CUSTOMER_VIEW.requiresAuth }
+  },
   // 审批
   {
     path: PATH.GM_APPROVAL.path,
@@ -125,7 +140,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  console.log(to.path);
+  // console.log(to.path);
   if (to.path === "/error" || to.path === "/login") {
     next();
   } else if (to.path === "/") {
@@ -140,10 +155,10 @@ router.beforeEach(async (to, from, next) => {
       )
     ) {
       //有权限
-      console.log("获得访问权限");
-      next();
+      // console.log("获得访问权限");
+      next()
     } else {
-      console.log("无权限访问");
+      // console.log("无权限访问");
       next("/"); //无权限,跳回主页
     }
   } else {
