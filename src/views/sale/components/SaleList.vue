@@ -34,35 +34,42 @@
       <div>
         <el-row>
           <el-col :span="3">
-            <span><strong>供应商id: </strong>{{item.supplier}}</span>
+            <span><strong>销售商id: </strong>{{item.supplier}}</span>
           </el-col>
           <el-col :span="3">
             <span><strong>操作员: </strong>{{item.operator}}</span>
           </el-col>
+          <el-col :span="3">
+            <span><strong>业务员: </strong>{{item.salesman}}</span>
+          </el-col>
           <el-col :span="6">
-            <span><strong>总额合计: </strong>{{item.totalAmount}}(元)</span>
+            <span><strong>折让前总额: </strong>{{item.rawTotalAmount}}(元)</span>
           </el-col>
         </el-row>
-        <div style="margin-top: 15px">
-          <el-row>
-            <el-col :span="24">
-              <span><strong>备注: </strong>{{item.remark}}</span>
-            </el-col>
-          </el-row>
-        </div>
+        <el-row style="margin-top: 15px">
+          <el-col :span="3">
+            <span><strong>折扣: </strong>{{item.discount}}</span>
+          </el-col>
+          <el-col :span="6">
+            <span><strong>使用代金券总额: </strong>{{item.voucherAmount}}(元)</span>
+          </el-col>
+          <el-col :span="6">
+            <span><strong>折让后总额: </strong>{{item.finalAmount}}(元)</span>
+          </el-col>
+        </el-row>
+        <el-row style="margin-top: 15px">
+          <el-col :span="24">
+            <span><strong>备注: </strong>{{item.remark}}</span>
+          </el-col>
+        </el-row>
         <div v-if="showAll[index]" style="margin-top: 15px">
           <div style="margin-bottom: 15px"><strong>详细商品清单:</strong></div>
           <el-table
-            :data="item.purchaseSheetContent"
+            :data="item.saleSheetContent"
             stripe
             style="width: 100%"
             :header-cell-style="{'text-align':'center'}"
             :cell-style="{'text-align':'center'}">
-            <el-table-column
-              prop="id"
-              label="id"
-              width="100">
-            </el-table-column>
             <el-table-column
               prop="pid"
               label="商品id"
@@ -95,17 +102,16 @@
 </template>
 
 <script>
-import { firstApproval, secondApproval } from '../../../network/sale'
+import { firstApproval, secondApproval} from '../../../network/sale'
 export default {
-  name: "PurchaseList",
+  name: 'SaleList',
   props: {
     list: Array,
-    type: Number,
+    type: Number
   },
   data() {
     return {
       showAll: [],
-      visible: false
     }
   },
   mounted() {
@@ -116,7 +122,7 @@ export default {
       this.$set(this.showAll, index, !this.showAll[index])
     },
     authorization() {
-      if (this.type === 1 && sessionStorage.getItem('role') === 'SALE_MANAGER') {
+      if (this.type === 1 && (sessionStorage.getItem('role') === 'SALE_MANAGER' || sessionStorage.getItem('role') === 'GM')) {
         return 1
       } else if (this.type === 2 && sessionStorage.getItem('role') === 'GM') {
         return 2
@@ -125,7 +131,7 @@ export default {
     approval(id) {
       let config = {
         params: {
-          purchaseSheetId: id,
+          saleSheetId: id,
           state: this.type === 1 ? 'PENDING_LEVEL_2' : 'SUCCESS'
         }
       }
@@ -150,7 +156,7 @@ export default {
     deny(id) {
       let config = {
         params: {
-          purchaseSheetId: id,
+          saleSheetId: id,
           state: 'FAILURE'
         }
       }

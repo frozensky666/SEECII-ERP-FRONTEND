@@ -19,8 +19,10 @@ const InventoryOverflow = () => import("../views/inventory/InventoryOverflow");
 const InventoryPresent = () => import("../views/inventory/InventoryPresent");
 const InventoryView = () => import("../views/inventory/InventoryView");
 const InventoryWarning = () => import("../views/inventory/InventoryWarning");
-const PurchaseView = () => import("../views/sale/PurchaseView")
-const CustomerView = () => import ("../views/sale/CustomerView");
+const PurchaseView = () => import("../views/purchase/PurchaseView");
+const PurchaseReturnView = () => import("../views/purchase/PurchaseReturnView");
+const SaleView = () => import("../views/sale/SaleView");
+const CustomerView = () => import ("../views/purchase/CustomerView");
 const Approval = () => import("../views/approval/Approval");
 
 Vue.use(VueRouter);
@@ -112,6 +114,18 @@ const routes = [
     component: PurchaseView,
     name: "PurchaseView",
     meta: { requiresAuth: PATH.PURCHASE_VIEW.requiresAuth }
+  },
+  {
+    path: PATH.PURCHASE_RETURN_VIEW.path,
+    component: PurchaseReturnView,
+    name: "PurchaseReturnView",
+    meta: { requiresAuth: PATH.PURCHASE_RETURN_VIEW.requiresAuth }
+  },
+  {
+    path: PATH.SALE_VIEW.path,
+    component: SaleView,
+    name: "SaleView",
+    meta: { requiresAuth: PATH.SALE_VIEW.requiresAuth }
   },
   {
     path: PATH.CUSTOMER_VIEW.path,

@@ -1,7 +1,7 @@
 <template>
   <Layout>
-    <Title title="进货管理"></Title>
-    <el-button type="primary" size="medium" @click="dialogVisible = true">制定进货单</el-button>
+    <Title title="销售管理"></Title>
+    <el-button type="primary" size="medium" @click="dialogVisible = true">制定销售单</el-button>
     <div class="body">
       <el-tabs v-model="activeName" :stretch="true">
         <el-tab-pane label="待一级审批" name="PENDING_LEVEL_1">
@@ -9,7 +9,7 @@
             <el-empty description="暂无数据"></el-empty>
           </div>
           <div v-else>
-            <purchase-list :list="pendingLevel1List" :type="1" @refresh="getPurchase()"/>
+            <sale-list :list="pendingLevel1List" :type="1" @refresh="getSale()"/>
           </div>
         </el-tab-pane>
         <el-tab-pane label="待二级审批" name="PENDING_LEVEL_2">
@@ -17,7 +17,7 @@
             <el-empty description="暂无数据"></el-empty>
           </div>
           <div v-else>
-            <purchase-list :list="pendingLevel2List" :type="2" @refresh="getPurchase()"/>
+            <sale-list :list="pendingLevel2List" :type="2" @refresh="getSale()"/>
           </div>
         </el-tab-pane>
         <el-tab-pane label="审批完成" name="SUCCESS">
@@ -25,7 +25,7 @@
             <el-empty description="暂无数据"></el-empty>
           </div>
           <div v-else>
-            <purchase-list :list="successList" :type="3"/>
+            <sale-list :list="successList" :type="3"/>
           </div>
         </el-tab-pane>
         <el-tab-pane label="审批失败" name="FAILURE">
@@ -33,33 +33,38 @@
             <el-empty description="暂无数据"></el-empty>
           </div>
           <div v-else>
-            <purchase-list :list="failureList" :type="4"/>
+            <sale-list :list="failureList" :type="4"/>
           </div>
         </el-tab-pane>
       </el-tabs>
     </div>
     <el-dialog
-      title="创建进货单"
+      title="创建销售单"
       :visible.sync="dialogVisible"
       width="40%"
       :before-close="handleClose">
       <div style="width: 90%; margin: 0 auto">
-        <el-form :model="purchaseForm" label-width="80px" ref="purchaseForm" :rules="rules">
-          <el-form-item label="供应商: " prop="supplier">
-            <el-select v-model="purchaseForm.supplier" placeholder="请选择供应商">
+        <el-form :model="saleForm" label-width="100px" ref="saleForm" :rules="rules">
+          <el-form-item label="销售商: " prop="supplier">
+            <el-select v-model="saleForm.supplier" placeholder="请选择销售商">
               <el-option
-                v-for="item in suppliers"
+                v-for="item in sellers"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id">
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="折扣: " prop="discount">
+            <el-input v-model="saleForm.discount"></el-input>
+          </el-form-item>
+          <el-form-item label="代金券总额: " prop="voucherAmount">
+            <el-input v-model="saleForm.voucherAmount"></el-input>
+          </el-form-item>
           <el-form-item
-            v-for="(item, index) in purchaseForm.purchaseSheetContent"
+            v-for="(item, index) in saleForm.saleSheetContent"
             :key="index"
-            :label="'商品' + index"
-            :prop="'product' + index + '.value'">
+            :label="'商品' + index">
             <div>
               <el-select v-model="item.pid" placeholder="请选择商品id" style="width: 40%; margin-right: 5%">
                 <el-option
@@ -74,17 +79,17 @@
             </div>
             <div style="margin-top: 10px">
               <el-input v-model="item.remark" style="width: 70%; margin-right: 10%" placeholder="请填写备注"></el-input>
-              <el-button type="text" size="small" @click="addProduct" v-if="index === purchaseForm.purchaseSheetContent.length - 1">添加</el-button>
+              <el-button type="text" size="small" @click="addProduct" v-if="index === saleForm.saleSheetContent.length - 1">添加</el-button>
               <el-button type="text" size="small" @click.prevent="removeProduct(item)" v-if="index !== 0">删除</el-button>
             </div>
           </el-form-item>
           <el-form-item label="备注: ">
-            <el-input type="textarea" v-model="purchaseForm.remark"></el-input>
+            <el-input type="textarea" v-model="saleForm.remark"></el-input>
           </el-form-item>
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm('purchaseForm')">立即创建</el-button>
+        <el-button type="primary" @click="submitForm('saleForm')">立即创建</el-button>
       </span>
     </el-dialog>
   </Layout>
@@ -93,27 +98,28 @@
 <script>
 import Layout from "@/components/content/Layout";
 import Title from "@/components/content/Title";
-import PurchaseList from "./components/PurchaseList"
-import { getAllPurchase, createPurchase } from '../../network/sale'
+import SaleList from './components/SaleList'
+import { getAllSale, createSale } from '../../network/sale'
+import { getAllCustomer } from '../../network/purchase'
 import { getAllCommodity } from '../../network/commodity'
 export default {
-  name: 'PurchaseView',
+  name: 'SaleView',
   components: {
     Layout,
     Title,
-    PurchaseList
+    SaleList
   },
   data() {
     return {
       activeName: 'PENDING_LEVEL_1',
-      purchaseList: [],
+      saleList: [],
       pendingLevel1List: [],
       pendingLevel2List: [],
       successList: [],
       failureList: [],
       dialogVisible: false,
-      purchaseForm: {
-        purchaseSheetContent: [
+      saleForm: {
+        saleSheetContent: [
           {
             pid: '',
             quantity: '',
@@ -122,41 +128,45 @@ export default {
           }
         ]
       },
-      suppliers: [
-        {
-          id: 1,
-          name: 'yzh'
-        }
-      ],
+      sellers: [],
       rules: {
         supplier: [
-          { required: true, message: '请选择一个供应商', trigger: 'change' }
+          { required: true, message: '请选择一个销售商', trigger: 'change' }
         ],
+        discount: [
+          { required: true, message: '请输入折扣', trigger: 'change' }
+        ],
+        voucherAmount: [
+          { required: true, message: '请输入代金券总额', trigger: 'change' }
+        ]
       },
       commodityList: []
     }
   },
   mounted() {
-    this.getPurchase()
+    this.getSale()
     getAllCommodity({}).then(_res => {
       let res = _res.result
       res.forEach(item => this.commodityList.push({ id: item.id }))
     })
+    getAllCustomer({ params : { type: 'SELLER' } }).then(_res => {
+      this.sellers = _res.result
+    })
   },
   methods: {
-    getPurchase() {
-      getAllPurchase({}).then(_res => {
-        this.purchaseList = _res.result
-        this.pendingLevel1List = this.purchaseList.filter(item => item.state === '待一级审批')
-        this.pendingLevel2List = this.purchaseList.filter(item => item.state === '待二级审批')
-        this.successList = this.purchaseList.filter(item => item.state === '审批完成')
-        this.failureList = this.purchaseList.filter(item => item.state === '审批失败')
+    getSale() {
+      getAllSale({}).then(_res => {
+        this.saleList = _res.result
+        this.pendingLevel1List = this.saleList.filter(item => item.state === '待一级审批')
+        this.pendingLevel2List = this.saleList.filter(item => item.state === '待二级审批')
+        this.successList = this.saleList.filter(item => item.state === '审批完成')
+        this.failureList = this.saleList.filter(item => item.state === '审批失败')
       })
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
-          this.purchaseForm = {};
+          this.saleForm = {};
           done();
         })
         .catch(_ => {});
@@ -164,38 +174,39 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.purchaseForm.id = null
-          this.purchaseForm.operator = sessionStorage.getItem("name")
-          this.purchaseForm.totalAmount = null
-          this.purchaseForm.state = null
-          this.purchaseForm.purchaseSheetContent.forEach((item) => {
+          this.saleForm.id = null
+          this.saleForm.operator = sessionStorage.getItem("name")
+          this.saleForm.salesman = sessionStorage.getItem("name")
+          this.saleForm.state = null
+          this.saleForm.rawTotalAmount = null
+          this.saleForm.finalAmount = null
+          this.saleForm.discount = Number(this.saleForm.discount)
+          this.saleForm.voucherAmount = Number(this.saleForm.voucherAmount)
+          this.saleForm.saleSheetContent.forEach((item) => {
             item.id = null
             item.purchaseSheetId = null
             item.quantity = parseInt(item.quantity)
             item.unitPrice = parseInt(item.unitPrice)
             item.totalPrice = item.quantity * item.unitPrice
           })
-          createPurchase(this.purchaseForm).then(_res => {
-            console.log(_res)
+          createSale(this.saleForm).then(_res => {
             if (_res.msg === 'Success') {
               this.$message.success('创建成功!')
               this.dialogVisible = false
-              this.purchaseForm = {}
-              this.getPurchase()
+              this.saleForm = {}
+              this.getSale()
             }
           })
-        } else {
-          this.$message.error('Error!');
         }
-      });
+      })
     },
     addProduct() {
-      this.purchaseForm.purchaseSheetContent.push({});
+      this.saleForm.saleSheetContent.push({});
     },
     removeProduct(item) {
-      var index = this.purchaseForm.purchaseSheetContent.indexOf(item)
+      var index = this.saleForm.saleSheetContent.indexOf(item)
       if (index !== -1) {
-        this.purchaseForm.purchaseSheetContent.splice(index, 1)
+        this.saleForm.saleSheetContent.splice(index, 1)
       }
     }
   }

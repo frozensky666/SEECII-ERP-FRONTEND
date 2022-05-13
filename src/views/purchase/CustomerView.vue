@@ -86,12 +86,6 @@
               size="small">
               编辑
             </el-button>
-            <el-button
-              @click.native.prevent="deleteCustomer(scope.row.id)"
-              type="text"
-              size="small">
-              删除
-            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -102,7 +96,7 @@
 <script>
 import Layout from "@/components/content/Layout";
 import Title from "@/components/content/Title";
-import { getAllCustomer } from "../../network/sale";
+import { getAllCustomer } from "../../network/purchase";
 export default {
   name: 'CustomerView',
   components: {
@@ -127,15 +121,12 @@ export default {
       return row.type === value
     },
     addCustomer() {
-      console.log('新增客户')
+      // TODO: 新增客户
+      alert('TODO: 新增客户')
     },
     editInfo(id) {
       // TODO: 修改客户信息
-      console.log(`修改${id}客户信息`)
-    },
-    deleteCustomer(id) {
-      // TODO: 删除客户
-      console.log(`删除${id}客户`)
+      alert(`TODO: 修改${id}客户信息`)
     }
   }
 }

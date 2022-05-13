@@ -61,10 +61,18 @@ export const PATH = {
     requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
   },
   
-  // SALE_STAFF
+  // SALE_STAFF & SALE_MANAGER
   PURCHASE_VIEW: {
     path: '/purchaseView',
-    requiresAuth: [ROLE.SALE_STAFF,ROLE.SALE_MANAGER,ROLE.GM,ROLE.ADMIN,]
+    requiresAuth: [ROLE.SALE_STAFF,ROLE.SALE_MANAGER,ROLE.GM,ROLE.ADMIN]
+  },
+  PURCHASE_RETURN_VIEW: {
+    path: '/purchaseReturnView',
+    requiresAuth: [ROLE.SALE_STAFF,ROLE.SALE_MANAGER,ROLE.GM,ROLE.ADMIN]
+  },
+  SALE_VIEW: {
+    path: '/saleView',
+    requiresAuth: [ROLE.SALE_STAFF,ROLE.SALE_MANAGER,ROLE.GM,ROLE.ADMIN]
   },
   CUSTOMER_VIEW: {
     path: '/customerView',
