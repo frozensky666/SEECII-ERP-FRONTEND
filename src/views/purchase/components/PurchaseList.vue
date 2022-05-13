@@ -113,7 +113,7 @@ export default {
       this.$set(this.showAll, index, !this.showAll[index])
     },
     authorization() {
-      if (this.type === 1 && (sessionStorage.getItem('role') === 'SALE_MANAGER' || sessionStorage.getItem('role') === 'GM')) {
+      if (this.type === 1 && sessionStorage.getItem('role') === 'SALE_MANAGER') {
         return 1
       } else if (this.type === 2 && sessionStorage.getItem('role') === 'GM') {
         return 2
