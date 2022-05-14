@@ -22,6 +22,9 @@ const COMMODITY_DELETE = '/api/product/delete';
 const WAREHOUSE_INPUT = '/api/warehouse/input';
 const WAREHOUSE_OUTPUT_PRE = '/api/warehouse/product/count';
 const WAREHOUSE_OUTPUT = '/api/warehouse/output';
+const WAREHOUSE_IO_DEATIL_BY_TIME = '/api/warehouse/sheetContent/time';
+const WAREHOUSE_IPQ_BY_TIME = '/api/warehouse/inputSheet/time/quantity';
+const WAREHOUSE_OPQ_BY_TIME = '/api/warehouse/outputSheet/time/quantity';
 
 
 // 销售管理
@@ -63,6 +66,9 @@ module.exports = {
   WAREHOUSE_INPUT,
   WAREHOUSE_OUTPUT_PRE,
   WAREHOUSE_OUTPUT,
+  WAREHOUSE_IO_DEATIL_BY_TIME,
+  WAREHOUSE_IPQ_BY_TIME,
+  WAREHOUSE_OPQ_BY_TIME,
 
   PURCHASE_ALL,
   PURCHASE_CREATE,

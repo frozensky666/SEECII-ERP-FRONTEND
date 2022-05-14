@@ -4,3 +4,7 @@ const testAPI = require("@/apis"); //此处务必使用require导入（因为是
 export const warehouseInput = config => request._post(testAPI.WAREHOUSE_INPUT, config);
 export const warehouseOutputPre = config => request._post(testAPI.WAREHOUSE_OUTPUT_PRE, config);
 export const warehouseOutput = config => request._post(testAPI.WAREHOUSE_OUTPUT, config);
+
+export const getWarehouseIODetailByTime = config => request._get(testAPI.WAREHOUSE_IO_DEATIL_BY_TIME, config);
+export const getWarehouseIPQByTime = config => request._get(testAPI.WAREHOUSE_IPQ_BY_TIME, config);
+export const getWarehouseOPQByTime = config => request._get(testAPI.WAREHOUSE_OPQ_BY_TIME, config);
