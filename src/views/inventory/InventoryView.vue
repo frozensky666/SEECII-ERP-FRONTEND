@@ -124,15 +124,18 @@ export default {
         }
       }
       getWarehouseIPQByTime(config).then(_res => {
-        console.log(_res)
         this.inputQuantity = _res.result
       })
       getWarehouseOPQByTime(config).then(_res => {
-        console.log(_res)
         this.outputQuantity = _res.result
       })
       getWarehouseIODetailByTime(config).then(_res => {
         this.sheetContent = _res.result
+        if (this.sheetContent.length === 0) {
+          this.$message.error('该时间段内无出入库记录!')
+        } else {
+          this.$message.success('查询成功!')
+        }
       })
     },
     filterTag(value, row) {
