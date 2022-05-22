@@ -116,20 +116,22 @@ export default {
     }
   },
   methods: {
-    async getData() {
+    getData() {
       const config = {
         params: {
           beginDateStr: this.beginDate,
           endDateStr: this.endDate
         }
       }
-      await getWarehouseIPQByTime(config).then(_res => {
+      getWarehouseIPQByTime(config).then(_res => {
+        console.log(_res)
         this.inputQuantity = _res.result
       })
-      await getWarehouseOPQByTime(config).then(_res => {
+      getWarehouseOPQByTime(config).then(_res => {
+        console.log(_res)
         this.outputQuantity = _res.result
       })
-      await getWarehouseIODetailByTime(config).then(_res => {
+      getWarehouseIODetailByTime(config).then(_res => {
         this.sheetContent = _res.result
       })
     },
