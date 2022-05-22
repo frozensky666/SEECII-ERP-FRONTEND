@@ -9,6 +9,7 @@ const CommodityManagement = () =>
   import("../views/commodity/CommodityManagement");
 const CommodityClassification = () =>
   import("../views/commodity/CommodityClassification");
+const InventoryManagement = () => import("../views/inventory/InventoryManagement");
 const InventoryCheck = () => import("../views/inventory/InventoryCheck");
 const InventoryOperation = () =>
   import("../views/inventory/InventoryOperation");
@@ -56,6 +57,11 @@ const routes = [
     meta: { requiresAuth: PATH.COMMODITY_MANAGEMENT.requiresAuth }
   },
   // 库存管理
+  {
+    path: PATH.INVENTORY_MANAGEMENT.path,
+    component: InventoryManagement,
+    meta: { requiresAuth: PATH.INVENTORY_MANAGEMENT.requiresAuth }
+  },
   {
     path: PATH.INVENTORY_CHECK.path,
     component: InventoryCheck,

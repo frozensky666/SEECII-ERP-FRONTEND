@@ -42,6 +42,13 @@
             <span slot="title">库存管理</span>
           </template>
           <el-menu-item
+            :index="PATH.INVENTORY_MANAGEMENT.path"
+            v-if="permit(PATH.INVENTORY_MANAGEMENT.requiresAuth)"
+          >
+            <i class="el-icon-receiving"></i>
+            <span slot="title">库存管理</span>
+          </el-menu-item>
+          <el-menu-item
             :index="PATH.INVENTORY_OPERATION.path"
             v-if="permit(PATH.INVENTORY_OPERATION.requiresAuth)"
           >

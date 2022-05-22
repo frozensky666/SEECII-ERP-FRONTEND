@@ -22,10 +22,12 @@ const COMMODITY_DELETE = '/api/product/delete';
 const WAREHOUSE_INPUT = '/api/warehouse/input';
 const WAREHOUSE_OUTPUT_PRE = '/api/warehouse/product/count';
 const WAREHOUSE_OUTPUT = '/api/warehouse/output';
+const WAREHOUSE_GET_INPUTSHEET = '/api/warehouse/inputSheet/state';
+const WAREHOUSE_GET_OUTPUTSHEET = '/api/warehouse/outputSheet/state';
 const WAREHOUSE_IO_DEATIL_BY_TIME = '/api/warehouse/sheetContent/time';
 const WAREHOUSE_IPQ_BY_TIME = '/api/warehouse/inputSheet/time/quantity';
 const WAREHOUSE_OPQ_BY_TIME = '/api/warehouse/outputSheet/time/quantity';
-
+const WAREHOUSE_OUTPUTSHEET_APPROVE = '/api/warehouse/outputSheet/approve';
 
 // 销售管理
 // 进货管理
@@ -45,6 +47,10 @@ const SALE_FIRST_APPROVAL = '/api/sale/first-approval';
 const SALE_SECOND_APPROVAL = '/api/sale/second-approval';
 // 客户管理
 const CUSTOMER_QUERY = '/api/customer/findByType';
+const SALE_PURCHASE_ALL = '/api/purchase/sheet-show';
+const SALE_PURCHASE_CREATE = '/api/purchase/sheet-make';
+const SALE_CUSTOMER_QUERY = '/api/customer/findByType';
+const SALE_CUSTOMER_MAX = '/api/sale/maxAmountCustomer';
 
 module.exports = {
   TEST_GET,
@@ -57,7 +63,7 @@ module.exports = {
   COMMODITY_CLASSIFICATION_CREATE,
   COMMODITY_CLASSIFICATION_UPDATE,
   COMMODITY_CLASSIFICATION_DELETE,
-  
+
   COMMODITY_ALL,
   COMMODITY_CREATE,
   COMMODITY_UPDATE,
@@ -66,9 +72,12 @@ module.exports = {
   WAREHOUSE_INPUT,
   WAREHOUSE_OUTPUT_PRE,
   WAREHOUSE_OUTPUT,
+  WAREHOUSE_GET_INPUTSHEET,
+  WAREHOUSE_GET_OUTPUTSHEET,
   WAREHOUSE_IO_DEATIL_BY_TIME,
   WAREHOUSE_IPQ_BY_TIME,
   WAREHOUSE_OPQ_BY_TIME,
+  WAREHOUSE_OUTPUTSHEET_APPROVE,
 
   PURCHASE_ALL,
   PURCHASE_CREATE,
@@ -82,5 +91,7 @@ module.exports = {
   SALE_CREATE,
   SALE_FIRST_APPROVAL,
   SALE_SECOND_APPROVAL,
+  SALE_CUSTOMER_QUERY,
+  SALE_CUSTOMER_MAX,
   CUSTOMER_QUERY,
 };

@@ -24,6 +24,10 @@ export const PATH = {
     path: '/commodityManagement',
     requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
   },
+  INVENTORY_MANAGEMENT: {
+    path: '/inventoryManagement',
+    requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
+  },
   INVENTORY_OPERATION: {
     path: '/inventoryOperation',
     requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
@@ -60,7 +64,7 @@ export const PATH = {
     path: '/inventoryView',
     requiresAuth: [ROLE.INVENTORY_MANAGER,ROLE.ADMIN]
   },
-  
+
   // SALE_STAFF & SALE_MANAGER
   PURCHASE_VIEW: {
     path: '/purchaseView',
