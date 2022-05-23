@@ -10,3 +10,5 @@ export const createPurchaseReturn = config => request._post(testAPI.PURCHASE_RET
 export const returnFirstApproval = config => request._get(testAPI.PURCHASE_RETURN_FIRST_APPROVAL, config)
 export const returnSecondApproval = config => request._get(testAPI.PURCHASE_RETURN_SECOND_APPROVAL, config)
 export const getAllCustomer = config => request._get(testAPI.CUSTOMER_QUERY, config)
+export const getPurchaseBySheetId = config => request._get(testAPI.PURCHASE_FIND_SHEET_BY_ID, config)
+

@@ -28,10 +28,14 @@ const WAREHOUSE_IO_DEATIL_BY_TIME = '/api/warehouse/sheetContent/time';
 const WAREHOUSE_IPQ_BY_TIME = '/api/warehouse/inputSheet/time/quantity';
 const WAREHOUSE_OPQ_BY_TIME = '/api/warehouse/outputSheet/time/quantity';
 const WAREHOUSE_OUTPUTSHEET_APPROVE = '/api/warehouse/outputSheet/approve';
+const WAREHOUSE_INPUTSHEET_APPROVE = '/api/warehouse/inputSheet/approve';
+const WAREHOUSE_DAILY_COUNT = '/api/warehouse/warehouse/counting';
+
 
 // 销售管理
 // 进货管理
 const PURCHASE_ALL = '/api/purchase/sheet-show';
+const PURCHASE_FIND_SHEET_BY_ID = '/api/purchase/find-sheet';
 const PURCHASE_CREATE = '/api/purchase/sheet-make';
 const PURCHASE_FIRST_APPROVAL = '/api/purchase/first-approval';
 const PURCHASE_SECOND_APPROVAL = '/api/purchase/second-approval';
@@ -45,6 +49,7 @@ const SALE_ALL = '/api/sale/sheet-show';
 const SALE_CREATE = '/api/sale/sheet-make';
 const SALE_FIRST_APPROVAL = '/api/sale/first-approval';
 const SALE_SECOND_APPROVAL = '/api/sale/second-approval';
+const SALE_FIND_SHEET_BY_ID = '/api/sale/find-sheet';
 // 客户管理
 const CUSTOMER_QUERY = '/api/customer/findByType';
 const SALE_PURCHASE_ALL = '/api/purchase/sheet-show';
@@ -78,6 +83,8 @@ module.exports = {
   WAREHOUSE_IPQ_BY_TIME,
   WAREHOUSE_OPQ_BY_TIME,
   WAREHOUSE_OUTPUTSHEET_APPROVE,
+  WAREHOUSE_INPUTSHEET_APPROVE,
+  WAREHOUSE_DAILY_COUNT,
 
   PURCHASE_ALL,
   PURCHASE_CREATE,
@@ -87,11 +94,14 @@ module.exports = {
   PURCHASE_RETURN_CREATE,
   PURCHASE_RETURN_FIRST_APPROVAL,
   PURCHASE_RETURN_SECOND_APPROVAL,
+  PURCHASE_FIND_SHEET_BY_ID,
+
   SALE_ALL,
   SALE_CREATE,
   SALE_FIRST_APPROVAL,
   SALE_SECOND_APPROVAL,
   SALE_CUSTOMER_QUERY,
   SALE_CUSTOMER_MAX,
+  SALE_FIND_SHEET_BY_ID,
   CUSTOMER_QUERY,
 };

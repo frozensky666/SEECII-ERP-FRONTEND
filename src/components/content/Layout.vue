@@ -48,13 +48,13 @@
             <i class="el-icon-receiving"></i>
             <span slot="title">库存管理</span>
           </el-menu-item>
-          <el-menu-item
-            :index="PATH.INVENTORY_OPERATION.path"
-            v-if="permit(PATH.INVENTORY_OPERATION.requiresAuth)"
-          >
-            <i class="el-icon-receiving"></i>
-            <span slot="title">库存操作</span>
-          </el-menu-item>
+<!--          <el-menu-item-->
+<!--            :index="PATH.INVENTORY_OPERATION.path"-->
+<!--            v-if="permit(PATH.INVENTORY_OPERATION.requiresAuth)"-->
+<!--          >-->
+<!--            <i class="el-icon-receiving"></i>-->
+<!--            <span slot="title">库存操作</span>-->
+<!--          </el-menu-item>-->
           <el-menu-item
             :index="PATH.INVENTORY_VIEW.path"
             v-if="permit(PATH.INVENTORY_VIEW.requiresAuth)"
