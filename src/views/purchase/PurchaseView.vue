@@ -153,7 +153,7 @@ export default {
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
-          this.purchaseForm = {};
+          this.resetForm()
           done();
         })
         .catch(_ => {});
@@ -176,8 +176,8 @@ export default {
             console.log(_res)
             if (_res.msg === 'Success') {
               this.$message.success('创建成功!')
+              this.resetForm()
               this.dialogVisible = false
-              this.purchaseForm = {}
               this.getPurchase()
             }
           })
@@ -185,6 +185,18 @@ export default {
           this.$message.error('Error!');
         }
       });
+    },
+    resetForm() {
+      this.purchaseForm = {
+        purchaseSheetContent: [
+          {
+            pid: '',
+            quantity: '',
+            unitPrice: '',
+            remark: ''
+          }
+        ]
+      }
     },
     addProduct() {
       this.purchaseForm.purchaseSheetContent.push({});

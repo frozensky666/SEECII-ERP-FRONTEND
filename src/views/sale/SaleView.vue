@@ -166,7 +166,7 @@ export default {
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
-          this.saleForm = {};
+          this.resetForm()
           done();
         })
         .catch(_ => {});
@@ -193,12 +193,24 @@ export default {
             if (_res.msg === 'Success') {
               this.$message.success('创建成功!')
               this.dialogVisible = false
-              this.saleForm = {}
+              this.resetForm()
               this.getSale()
             }
           })
         }
       })
+    },
+    resetForm() {
+      this.saleForm = {
+        saleSheetContent: [
+          {
+            pid: '',
+            quantity: '',
+            unitPrice: '',
+            remark: ''
+          }
+        ]
+      }
     },
     addProduct() {
       this.saleForm.saleSheetContent.push({});
