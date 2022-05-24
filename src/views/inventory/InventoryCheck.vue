@@ -98,35 +98,6 @@ export default {
   },
   data(){
     return {
-      display_list: [
-        {
-          pid: 1,
-          salePrice: 20,
-          quantity: 200,
-          batchId: 12,
-          remark: "japde",
-          operator: "小苏",
-          saleSheetId: 12,
-        },
-        {
-          pid: 1,
-          salePrice: 20,
-          quantity: 200,
-          batchId: 12,
-          remark: "japde",
-          operator: "小苏",
-          saleSheetId: 12,
-        },
-        {
-          pid: 1,
-          salePrice: 20,
-          quantity: 200,
-          batchId: 12,
-          remark: "japde",
-          operator: "小苏",
-          saleSheetId: 12,
-        }
-      ],
       cur_list: [],
       cur_row: {},
       dialogVisible: false,
@@ -148,7 +119,8 @@ export default {
 
   },
   methods: {
-    exportAsExcel() { //导出Excel
+    exportAsExcel() {
+      //TODO 导出Excel
       alert("导出成Excel");
     },
     showProduct(row) {

@@ -100,7 +100,7 @@ export default {
           return item;
         }));
 
-        this.cur_row = this.draft_list[0]; //默认是第一个元素
+        this.cur_row = this.draft_list[0]; //默认获取第一个元素
       })
     })
 
@@ -108,11 +108,11 @@ export default {
   },
   data(){
     return {
-      draft_list: [],
+      draft_list: [], //出入库草稿列表
       dialogVisible: false,
-      cur_row: {},
-      successList: [],
-      product_data: [],
+      cur_row: {}, //当前行
+      successList: [], //当前需要展示的进货单或者销售单
+      product_data: [], //echarts数据
     }
   },
   computed: {
@@ -146,8 +146,9 @@ export default {
         });
     },
     showSaleSheet(row){
+      //获取进货单或者销售单详情，在dialog中展示
       if(row.type === '入库') {
-        console.log(row.purchaseSheetId);
+        console.log("进货单Id", row.purchaseSheetId);
         getPurchaseBySheetId({
           params: {
             id: row.purchaseSheetId,
@@ -158,7 +159,7 @@ export default {
           this.successList.push(_res.result);
         })
       }else if(row.type === '出库'){
-        console.log(row.saleSheetId);
+        console.log("销售单Id", row.saleSheetId);
         getSaleBySheetId({
           params: {
             id: row.saleSheetId,
@@ -169,11 +170,12 @@ export default {
           this.successList.push(_res.result);
         })
       }
-      this.cur_row = row;
-      this.dialogVisible = true;
+      this.cur_row = row; //更新当前行
+      this.dialogVisible = true; //打开dialog
     },
     confirm(row, state) {
-      console.log(row, state);
+      //出入库确认操作
+      //TODO 确认之后响应式更新echarts
       this.$confirm('请确认'+row.type+'操作', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
